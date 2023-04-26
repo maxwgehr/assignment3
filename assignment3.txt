@@ -1,0 +1,76 @@
+Assignment 3
+due Friday, April 28
+Please submit all assignments as zip files titled [lastname] assignment3.zip. Please include one Python file
+with your recognizer (Part 2) and another one with your parser (Part 3). Also include a single Word or
+PDF file with your answers from Part 1, along with your results and discussion..
+In this assignment, you will be working with the provided context-free grammar (included on the last page
+of this assignment) in order to create a parser, using the CKY algorithm.
+1 The Grammar
+Look over the grammar on the final page. (Please note that it is far from comprehensive!) Based on this
+grammar, draw a parse tree for the sentence “I read a book.” Parse this sentence by hand (i.e. do not use
+any automatic parsers for this step), and ensure that all nodes use rules from the grammar. (You may wish
+to draw the tree by hand and scan or take a photo of it to include in your report.)
+Then, convert the grammar into Chomsky normal form. You should be able to do this by hand, but if you
+choose to automate this step, include your code. Ensure that your final grammar has no unit productions
+and no rules with 3 or more nonterminals on its righthand side. Include this grammar in your report.
+2 CKY Recognizer
+Now, you will build a recognizer that can take in a sentence and return whether or not it can be parsed with
+this CFG.
+Start by encoding the CFG as two Python dicts, one for rules with terminals on the righthand side and one
+for rules with nonterminals on the righthand side. Each entry in the dict will have a nonterminal as its key,
+and its value will be a list of the righthand sides of all rules that have the key nonterminal as their lefthand
+side. The file assignment3.py includes partial dicts, though you will need to add many rules.
+Once you have encoded the grammar, create your recognizer. This should take in a sequence of words and,
+using the CKY chart parsing algorithm, return whether or not that sequence of words has a valid parse.
+(Note: for this part of the assignment, you do not need to return the parse, just determine whether or not
+there is one.)
+Once you have build the recognizer, state whether or not it is possible to parse the following sentences (which
+have punctuation omitted), based on the output of your recognizer:
+• I read a book
+• Does the flight include a meal
+• She does prefer this book
+• The morning flight left from Houston
+• She left on a United flight
+1
+3 CKY Parser
+Now, update your recognizer so that it can return a parse. If a sentence is ambiguous (according to this
+grammar), your parser should arbitrarily decide which parse to return and return a single valid parse. The
+parse you return should reflect the Chomsky normal form grammar (i.e. do not remove any “dummy” nodes).
+Using this parser, parse the following sentences:
+• I read a book
+• Book the flight through Houston
+• Does she prefer the morning flight
+Due to the difficulty of expressing trees in code, you may wish to return your tree in bracketed form, where
+each constituent is contained in square brackets containing the label of the constituent followed by each of
+the children (which may themselves be bracketed constituents. For example, a tree for the sentence “John
+saw the rabbit” might be
+[S [NP [NNP John]] [VP [VB saw] [NP [Det the] [NN rabbit]]]]
+Alternatively, you may wish to use the NLTK Tree package. You can read more about the package here:
+https://www.nltk.org/howto/tree.html
+2
+The Grammar
+Please note that the rules for terminals have been collapsed, so that a rule of the form A → b | c implicitly
+contains two separate rules: A → b and A → c.
+S → NP VP
+S → Aux NP VP
+S → VP
+NP → Pron
+NP → NNP
+NP → Det Nom
+Nom → NN
+Nom → Nom NN
+Nom → Nom PP
+VP → VB
+VP → VB NP
+VP → VB NP PP
+VP → VB PP
+VP → VP PP
+PP → Prep NP
+Det → that | this | the | a
+NN → book | flight | meal | money | morning
+NNP → Houston | United
+Prep → from | to | on | near | through
+Pron → I | she | me
+VB → book | include | prefer | read | left
+Aux → does
+3
